@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:8080";
+const apiUrl = "https://tcc-api-maua2021.herokuapp.com/";
 let charges = [];
 const table = document.getElementById("list");
 const pageBar = document.getElementById("page-bar");
