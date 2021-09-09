@@ -58,7 +58,7 @@ div.bg-page{
     display: flex;
     flex-direction: column;
     position: fixed;
-    z-index: -1;
+    z-index: -999;
 }
 
 /*
