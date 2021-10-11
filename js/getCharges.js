@@ -2,20 +2,63 @@ const apiUrl = "https://tcc-api-maua2021.herokuapp.com/";
 let charges = [];
 const table = document.getElementById("list");
 const pageBar = document.getElementById("page-bar");
-const url = apiUrl+"/charges";
+let url = apiUrl;
+let choosenEndDate;
+let choosenStartDate;
+let listValue = table.getAttribute("path")
 
-onLoad();
-async function onLoad(){
-    charges =  await fetch(url)
+onLoad(listValue);
+
+
+async function fetchNewResources(startDate, endDate, page){
+    let newUrl = url;
+    let queryParams = [];
+
+    charges = null;
+    table.innerHTML=  "";
+    pageBar.innerHTML = "";
+
+    if(startDate!=null){
+        queryParams.push(`start=${startDate}` )
+    }
+    if(endDate!=null){
+        queryParams.push(`end=${endDate}` )
+    }
+    if(page!=null){
+        queryParams.push(`page=${page}` )
+    }
+    for(let i=0; i< queryParams.length;i++){
+        if(i==0){
+            newUrl+="?";
+        }else{
+            newUrl+="&"
+        }
+        newUrl+= queryParams[i];
+    }
+    charges =  await fetch(newUrl)
                         .then(response=>response.json()); 
+    generateTableHeader();
     charges.content.forEach(element => {
         const tr = generateContent(element);
         table.append(tr)
     });
-
-    console.log(charges)
     generatePageBar(charges.number, charges.totalPages)
 }
+
+function generateTableHeader(){
+    table.innerHTML = `
+    <tr>
+        <th>ID</th>
+        <th>Timestamp</th>
+        <th>Energia(KWh)</th>
+    </tr>`
+}
+
+async function onLoad(path){
+    url += path;
+    fetchNewResources(null,null,null);
+}
+
 
 function generatePageBar(pgNumber,totalPages){
     pgNumber++;
@@ -23,13 +66,15 @@ function generatePageBar(pgNumber,totalPages){
 
 
     for(let i=1; i<5;i++){ 
-        if(number>5){
+        if(number.length==5){
             break;
         }
         if(pgNumber-i>0){
+            console.log(`vou diminuir ${pgNumber-i} ${totalPages}`)
             number.unshift(pgNumber-i)
         }
-        if(pgNumber+i>0){
+        if(pgNumber+i<=totalPages){
+            console.log(`vou aumentar ${pgNumber+i} ${totalPages}`)
             number.push(pgNumber+i)
         }
     }
@@ -45,16 +90,30 @@ function generatePaperBox(number){
     let node = document.createElement("button");
     node.classList.add("page-button");
     node.innerText = number;
+    node.onclick = changePage;
     return node;
 }
 
-function getChargeByDate(formData){
+function changePage(){
+    fetchNewResources(choosenStartDate,choosenEndDate,this.innerText - 1);
+}
 
-    console.log(response.body);
+function getChargeByDate(formData){
+    choosenStartDate = formData.elements["startDate"].value==""? null: formData.elements["startDate"].value;
+    choosenEndDate = formData.elements["endDate"].value==""? null: formData.elements["endDate"].value;
+
+    if(choosenStartDate != null && choosenEndDate !=null){
+        if(new Date(choosenStartDate)> new Date(choosenEndDate)){
+            alert("Data de início não pode ser maior que a final.")
+            return
+        }
+    }
+
+    fetchNewResources(choosenStartDate,choosenEndDate,null);
 }
 
 function generateContent(content){
-    
+    console.log(content)
     var node = document.createElement("TR");
     node.classList.add("table-row");
     var id = document.createElement("TD");
@@ -67,7 +126,7 @@ function generateContent(content){
     node.appendChild(timestamp);
     node.appendChild(energy)
     id.innerText = content.id;
-    energy.innerText = content.energyUsed;
+    energy.innerText = content.energy;
     timestamp.innerText = content.timestamp;
     return node;
 }

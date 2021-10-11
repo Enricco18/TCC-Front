@@ -11,12 +11,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oxygen&family=Roboto&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/58792241c1.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js" crossorigin="anonymous"></script>
-
 </head>
 
 <body>
-    <div class="bg-page">
+     <div class="bg-page">
     </div>
     <div id="content">
         <header>
@@ -27,13 +25,10 @@
                 <nav class="flex-align-center">
                     <a href="./charges.html">Carregamentos</a>
                     <a href="./generation.html">Gerações</a>
-                    <a href="./balance.html">Balanço</a>
+                    <a href="./graphs.html">Balanço</a>
                 </nav>
-                <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-                    <i class="fa fa-bars"></i>
-                </a> -->
             </div>
-        </header>
+        </header> 
         <div class="body wrapper flex-align-center flex-justify-center">
             <div id="charges-page" class="wrapper">
                 <form action="javascript:" onsubmit="getChargeByDate(this)">
@@ -49,33 +44,22 @@
                             </div>
                         </div>
                         <div>
-                            <div>
-                                <input type="radio" name="filter" id="day">
-                                <label>Dia</label>
-                            </div>
-                            <div>
-                                <input type="radio" name="filter" id="week">
-                                <label>Semana</label>
-                            </div>
-                            <div>
-                                <input type="radio" name="filter" id="month">
-                                <label>Mês</label>
-                            </div>
-                            <div>
-                                <input type="radio" name="filter" id="year">
-                                <label>Ano</label>
-                            </div>           
-                        </div>
-                        <div>
                             <input type="submit">
                         </div>
                     </div>
                 </form>
-                <canvas id="charts-page" class="wrapper"></canvas>
+                <hr />
+                <h3 class="subtitle">Geração de Energia</h3>
+                <hr/>
+                <table id="list" path="generations">
+                </table>
+                <hr />
+                <div id="page-bar" class="">
+                </div>
             </div>
         </div>
     </div>
-    <script src="./js/chartScript.js"></script>
+    <script src="./js/getCharges.js"></script>
 </body>
 
 </html>
