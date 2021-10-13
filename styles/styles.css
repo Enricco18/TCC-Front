@@ -14,6 +14,7 @@ html,body{
     min-width: 100vw;
     min-height: 100vh;
     height: 100%;
+    overflow: auto;
 }
 
 .wrapper{
@@ -196,7 +197,7 @@ nav> a:hover:after{
 #charges-page{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     background-color: #eee;
     border-radius: 8px;
@@ -246,7 +247,10 @@ nav> a:hover:after{
 }
 
 #list{
+    display: block;
     min-width: 80%;
+    max-height: 500px;
+    overflow: auto;
     text-align: center;
 }
 
@@ -258,9 +262,94 @@ nav> a:hover:after{
 }
 
 .subtitle{
-    margin: auto auto;
+    margin: 0 auto;
 }
 
-#charts-page{
+#canvas-wrapper{
     width: 80%;
+    height: 100%;
 }
+
+.form-space > *{
+    margin-right: 8px;
+}
+.form-space > *:last-child{
+    margin-right: 0px;
+}
+
+#hamburguer-box{
+    display: none;
+    height: 100%;
+    z-index: 4;
+}
+
+#home-btn{
+    display: none;
+}
+
+#hamburguer-ico{
+    font-size: 1.5rem;
+}
+
+
+#search-button{
+    display: none;
+    font-size: 1.5rem;
+}
+@media screen and (max-width: 900px) {
+    #search-button{
+        display: block;
+    }
+    #hamburguer-box{
+        display: block;
+    }
+    header{
+        position: sticky;
+        top:0;
+    }
+
+    #menu-box{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        height: 100vh;
+        z-index: 3;
+        top:0;
+        left: -105vw;
+        width: 100vw;
+        background-color: white;
+        box-shadow:  10px 10px 10px #1173c4a4;
+        transition: all linear 0.5s;
+        overflow: hidden;
+    }
+
+
+    #home-btn{
+        display: block;
+    }
+
+    #menu-box nav{
+        height: 30%;
+        font-size: 1.5rem;
+        justify-content: space-between;
+        flex-direction: column !important;
+    }
+
+    .search-bar{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        height: 100vh;
+        z-index: 3;
+        top:0;
+        left: -105vw;
+        width: 100vw;
+        background-color: white;
+        box-shadow:  10px 10px 10px #1173c4a4;
+        transition: all linear 0.5s;
+        overflow: hidden;
+    }
+}
+

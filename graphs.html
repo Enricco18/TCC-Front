@@ -20,62 +20,85 @@
     </div>
     <div id="content">
         <header>
-            <div class="wrapper flex-space-between">
+            <div class="wrapper flex-space-between flex-align-center">
                 <a href="./index.html">
                     <img id="logo" src="./images/logo.png" alt="logo" srcset="">
                 </a>
-                <nav class="flex-align-center">
-                    <a href="./charges.html">Carregamentos</a>
-                    <a href="./generation.html">Gerações</a>
-                    <a href="./balance.html">Balanço</a>
-                </nav>
-                <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-                    <i class="fa fa-bars"></i>
-                </a> -->
+                <div id="menu-box">
+                    <nav class="flex-align-center">
+                        <a id="home-btn" href="./index.html">Home</a>
+                        <a href="./charges.html">Carregamentos</a>
+                        <a href="./generation.html">Gerações</a>
+                        <a href="./graphs.html">Balanço</a>
+                    </nav>
+                </div>
+                <a href="javascript:void(0);" id="hamburguer-box" class="icon" onclick="menu()">
+                    <i id="hamburguer-ico" class="fa fa-bars"></i>
+                </a>
             </div>
         </header>
         <div class="body wrapper flex-align-center flex-justify-center">
             <div id="charges-page" class="wrapper">
-                <form action="javascript:" onsubmit="getChargeByDate(this)">
-                    <div class="search-bar flex-space-between">
-                        <div class="search-bar-items">
-                            <div>
-                                <span>Data de início: </span>
-                                <input name="startDate" type="date">
-                            </div>
-                            <div>
-                                <span>Data final: </span>
-                                <input name="endDate" type="date">
-                            </div>
+                <form action="javascript:" onsubmit="useFilters(this)">
+                    <div id="search-menu" class="search-bar flex-space-between form-space flex-justify-center flex-align-center">
+                        <div>
+                            <span>Data de início: </span>
+                            <input name="startDate" type="date">
+                        </div>
+                        <div>
+                            <span>Data final: </span>
+                            <input name="endDate" type="date">
                         </div>
                         <div>
                             <div>
-                                <input type="radio" name="filter" id="day">
+                                <input type="radio" name="periodicity" value="day" id="day">
                                 <label>Dia</label>
                             </div>
                             <div>
-                                <input type="radio" name="filter" id="week">
+                                <input type="radio" name="periodicity" value="week" id="week">
                                 <label>Semana</label>
                             </div>
                             <div>
-                                <input type="radio" name="filter" id="month">
+                                <input type="radio" name="periodicity" value="month" id="month">
                                 <label>Mês</label>
                             </div>
                             <div>
-                                <input type="radio" name="filter" id="year">
+                                <input type="radio" name="periodicity" value="year" id="year">
                                 <label>Ano</label>
                             </div>           
                         </div>
                         <div>
-                            <input type="submit">
+                            <div>
+                                <input type="radio" name="filter" value="both" id="week">
+                                <label>Ambos</label>
+                            </div>   
+                            <div>
+                                <input type="radio" name="filter" value="generation" id="day">
+                                <label>Geração</label>
+                            </div>
+                            <div>
+                                <input type="radio" name="filter" value="charge" id="week">
+                                <label>Carregamento</label>
+                            </div>           
+                        </div>
+                        <div>
+                            <input id="search-submit" type="submit">
                         </div>
                     </div>
+                    <div id="search-button">
+                        <i class="fas fa-search"></i>
+                    </div>
+                   
                 </form>
-                <canvas id="charts-page" class="wrapper"></canvas>
+                <div id="canvas-wrapper" class="wrapper">
+                    <canvas id="charts-page" ></canvas>
+                </div>
             </div>
         </div>
     </div>
     <script src="./js/chartScript.js"></script>
+    <script src="./js/responsive-header.js"></script>
+    <script src="./js/search-bar.js"></script>
 </body>
 
 </html>

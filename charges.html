@@ -19,37 +19,41 @@
     </div>
     <div id="content">
         <header>
-            <div class="wrapper flex-space-between">
+            <div class="wrapper flex-space-between flex-align-center">
                 <a href="./index.html">
                     <img id="logo" src="./images/logo.png" alt="logo" srcset="">
                 </a>
-                <nav class="flex-align-center">
-                    <a href="./charges.html">Carregamentos</a>
-                    <a href="./generation.html">Gerações</a>
-                    <a href="./graphs.html">Balanço</a>
-                </nav>
-                <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-                    <i class="fa fa-bars"></i>
-                </a> -->
+                <div id="menu-box">
+                    <nav class="flex-align-center">
+                        <a id="home-btn" href="./index.html">Home</a>
+                        <a href="./charges.html">Carregamentos</a>
+                        <a href="./generation.html">Gerações</a>
+                        <a href="./graphs.html">Balanço</a>
+                    </nav>
+                </div>
+                <a href="javascript:void(0);" id="hamburguer-box" class="icon" onclick="menu()">
+                    <i id="hamburguer-ico" class="fa fa-bars"></i>
+                </a>
             </div>
         </header>
         <div class="body wrapper flex-align-center flex-justify-center">
             <div id="charges-page" class="wrapper">
                 <form action="javascript:" onsubmit="getChargeByDate(this)">
-                    <div class="search-bar flex-space-between">
-                        <div class="search-bar-items">
-                            <div>
-                                <span>Data de início: </span>
-                                <input name="startDate" type="date">
-                            </div>
-                            <div>
-                                <span>Data final: </span>
-                                <input name="endDate" type="date">
-                            </div>
+                    <div id="search-menu" class="search-bar flex-space-between form-space">
+                        <div>
+                            <span>Data de início: </span>
+                            <input name="startDate" type="date">
                         </div>
                         <div>
-                            <input type="submit">
+                            <span>Data final: </span>
+                            <input name="endDate" type="date">
                         </div>
+                        <div>
+                            <input id="search-submit" type="submit">
+                        </div>
+                    </div>
+                    <div id="search-button">
+                        <i class="fas fa-search"></i>
                     </div>
                 </form>
                 <hr />
@@ -63,7 +67,9 @@
             </div>
         </div>
     </div>
+    <script src="./js/responsive-header.js"></script>
     <script src="./js/getCharges.js"></script>
+    <script src="./js/search-bar.js"></script>
 </body>
 
 </html>
