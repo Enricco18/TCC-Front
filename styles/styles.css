@@ -247,7 +247,6 @@ nav> a:hover:after{
 }
 
 #list{
-    display: block;
     min-width: 80%;
     max-height: 500px;
     overflow: auto;
@@ -297,6 +296,9 @@ nav> a:hover:after{
     font-size: 1.5rem;
 }
 @media screen and (max-width: 900px) {
+    #list{
+        display: block;
+    }
     #search-button{
         display: block;
     }

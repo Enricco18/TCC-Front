@@ -9,12 +9,12 @@ let data = {
     datasets: [
         {
             label: "Geração de Energia",
-            backgroundColor: "blue",
+            backgroundColor: "#5fad56",
             data: []
         },
         {
             label: "Carregamentos",
-            backgroundColor: "red",
+            backgroundColor: "yellow",
             data: []
         },
         {
@@ -65,17 +65,18 @@ async function fetchNewResources(startDate, endDate, filter, periodicity){
     data.datasets = [
         {
             label: "Geração de Energia",
-            backgroundColor: "blue",
+            backgroundColor: "#9BDE52",
             data: []
         },
         {
             label: "Carregamentos",
-            backgroundColor: "red",
+            backgroundColor: "#DA2B00",
             data: []
         },
         {
             label: "Total",
-            backgroundColor: "green",
+            backgroundColor: "#31479F",
+            
             data: []
         }
     ];

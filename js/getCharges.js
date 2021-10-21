@@ -48,7 +48,6 @@ async function fetchNewResources(startDate, endDate, page){
 function generateTableHeader(){
     table.innerHTML = `
     <tr>
-        <th>ID</th>
         <th>Timestamp</th>
         <th>Energia(KWh)</th>
     </tr>`
@@ -116,16 +115,12 @@ function generateContent(content){
     console.log(content)
     var node = document.createElement("TR");
     node.classList.add("table-row");
-    var id = document.createElement("TD");
-    id.classList.add("id-cell")
     var timestamp = document.createElement("TD");
     timestamp.classList.add("timestamp-cell")
     var energy = document.createElement("TD");
     energy.classList.add("energy-cell")
-    node.appendChild(id);
     node.appendChild(timestamp);
     node.appendChild(energy)
-    id.innerText = content.id;
     energy.innerText = content.energy;
     timestamp.innerText = content.timestamp;
     return node;
