@@ -2,6 +2,8 @@ const apiUrl = "https://tcc-api-maua2021.herokuapp.com/";
 let url = apiUrl+ "balance";
 let choosenEndDate;
 let choosenStartDate;
+var finance = false;
+var buttonMoney = document.getElementById('money');
 var elementCanvas = document.getElementById('charts-page');
 var ctx = elementCanvas.getContext('2d');
 let data = {
@@ -9,17 +11,18 @@ let data = {
     datasets: [
         {
             label: "Geração de Energia",
-            backgroundColor: "#5fad56",
+            backgroundColor: "#9BDE52",
             data: []
         },
         {
             label: "Carregamentos",
-            backgroundColor: "yellow",
+            backgroundColor: "#DA2B00",
             data: []
         },
         {
             label: "Total",
-            backgroundColor: "green",
+            backgroundColor: "#31479F",
+            
             data: []
         }
     ]
@@ -47,6 +50,19 @@ let configGraph = {
             subtitle: {
                 display: true,
                 text: 'Todos os valores',
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(data) {         
+                        if(finance){
+                            var string = `${data.label}: R$ ${data.formattedValue}`
+                            return string
+                        }
+
+                        var string = `${data.label}: ${data.formattedValue} KWh`
+                        return string
+                    }
+                }
             }
         }
     }
@@ -58,7 +74,7 @@ var myChart = new Chart(ctx, configGraph);
 
 fetchNewResources(null,null,null,null);
 
-async function fetchNewResources(startDate, endDate, filter, periodicity){
+async function fetchNewResources(startDate, endDate, filter, periodicity, money){
     let newUrl = url;
     let queryParams = [];
     data.labels = [];
@@ -92,6 +108,9 @@ async function fetchNewResources(startDate, endDate, filter, periodicity){
     }
     if(periodicity!=null){
         queryParams.push(`by=${periodicity}` )
+    }
+    if(money!=null){
+        queryParams.push(`finance=${money}` )
     }
     for(let i=0; i< queryParams.length;i++){
         if(i==0){
@@ -152,7 +171,7 @@ function useFilters(formData){
             return
         }
     }
-    fetchNewResources(choosenStartDate,choosenEndDate,filter,periodicity);
+    fetchNewResources(choosenStartDate,choosenEndDate,filter,periodicity, finance);
 }
 
 
@@ -242,4 +261,14 @@ function clickHandler(evt) {
     }
 }
 
+function financeClickHandler(){
+    finance = !finance;
+    if(finance){
+        buttonMoney.style.color = "green"
+    }else{
+        buttonMoney.style.color = "black"
+    }
+}
+
+buttonMoney.onclick = financeClickHandler;
 elementCanvas.onclick = clickHandler;
