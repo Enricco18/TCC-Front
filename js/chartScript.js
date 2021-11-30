@@ -3,6 +3,7 @@ let url = apiUrl+ "balance";
 let choosenEndDate;
 let choosenStartDate;
 var finance = false;
+let results;
 var buttonMoney = document.getElementById('money');
 var elementCanvas = document.getElementById('charts-page');
 var ctx = elementCanvas.getContext('2d');
@@ -72,9 +73,9 @@ var myChart = new Chart(ctx, configGraph);
 
 
 
-fetchNewResources(null,null,null,null);
+fetchNewResources(null,null,null);
 
-async function fetchNewResources(startDate, endDate, filter, periodicity, money){
+async function fetchNewResources(startDate, endDate, periodicity){
     let newUrl = url;
     let queryParams = [];
     data.labels = [];
@@ -103,14 +104,8 @@ async function fetchNewResources(startDate, endDate, filter, periodicity, money)
     if(endDate!=null){
         queryParams.push(`end=${endDate}` )
     }
-    if(filter!=null){
-        queryParams.push(`filter=${filter}` )
-    }
     if(periodicity!=null){
         queryParams.push(`by=${periodicity}` )
-    }
-    if(money!=null){
-        queryParams.push(`finance=${money}` )
     }
     for(let i=0; i< queryParams.length;i++){
         if(i==0){
@@ -121,7 +116,7 @@ async function fetchNewResources(startDate, endDate, filter, periodicity, money)
         newUrl+= queryParams[i];
     }
     console.log(newUrl)
-    let results =  await fetch(newUrl)
+    results =  await fetch(newUrl)
                         .then(response=>response.json()); 
 
     if (startDate != null && endDate!= null) {
@@ -134,12 +129,26 @@ async function fetchNewResources(startDate, endDate, filter, periodicity, money)
         configGraph.options.plugins.subtitle.text = `Todos os valores`;
     }
     
-    for(const key in results.details){
-        let value = results.details[key]
-        data.labels.push(key);
-        data.datasets[0].data.push(value.generationTotal)
-        data.datasets[1].data.push(value.chargeTotal)
-        data.datasets[2].data.push(value.total)
+    if(finance){
+
+        
+        for(const key in results.details){
+            let value = results.details[key]
+            data.labels.push(key);
+            data.datasets[0].data.push(value.generationTotalMoney)
+            data.datasets[1].data.push(value.chargeTotalMoney)
+            data.datasets[2].data.push(value.totalMoney)
+        }
+        myChart.update();
+    }else{
+        for(const key in results.details){
+            let value = results.details[key]
+            data.labels.push(key);
+            data.datasets[0].data.push(value.generationTotal)
+            data.datasets[1].data.push(value.chargeTotal)
+            data.datasets[2].data.push(value.total)
+        }
+        myChart.update();
     }
     myChart.update();
 }
@@ -150,7 +159,6 @@ async function fetchNewResources(startDate, endDate, filter, periodicity, money)
 function useFilters(formData){
     choosenStartDate = formData.elements["startDate"].value==""? null: formData.elements["startDate"].value;
     choosenEndDate = formData.elements["endDate"].value==""? null: formData.elements["endDate"].value;
-    let filter = formData.elements["filter"].value =""? null: formData.elements["filter"].value;
     let periodicity = formData.elements["periodicity"].value =""? null: formData.elements["periodicity"].value;
 
     if(choosenStartDate != null && choosenEndDate !=null){
@@ -171,7 +179,8 @@ function useFilters(formData){
             return
         }
     }
-    fetchNewResources(choosenStartDate,choosenEndDate,filter,periodicity, finance);
+    console.log("entrou")
+    fetchNewResources(choosenStartDate,choosenEndDate,periodicity);
 }
 
 
@@ -263,11 +272,51 @@ function clickHandler(evt) {
 
 function financeClickHandler(){
     finance = !finance;
+    data.labels = [];
+    data.datasets = [
+        {
+            label: "Geração de Energia",
+            backgroundColor: "#9BDE52",
+            data: []
+        },
+        {
+            label: "Carregamentos",
+            backgroundColor: "#DA2B00",
+            data: []
+        },
+        {
+            label: "Total",
+            backgroundColor: "#31479F",
+            
+            data: []
+        }
+    ];
+    console.log(results.details)
     if(finance){
         buttonMoney.style.color = "green"
+        
+        for(const key in results.details){
+            let value = results.details[key]
+            data.labels.push(key);
+            data.datasets[0].data.push(value.generationTotalMoney)
+            data.datasets[1].data.push(value.chargeTotalMoney)
+            data.datasets[2].data.push(value.totalMoney)
+        }
+        myChart.update();
     }else{
+       
         buttonMoney.style.color = "black"
+        for(const key in results.details){
+            let value = results.details[key]
+            data.labels.push(key);
+            data.datasets[0].data.push(value.generationTotal)
+            data.datasets[1].data.push(value.chargeTotal)
+            data.datasets[2].data.push(value.total)
+        }
+        myChart.update();
     }
+
+
 }
 
 buttonMoney.onclick = financeClickHandler;
